@@ -36,6 +36,7 @@ export function translateYOutputRangeFor({
 
 const useNativeDriver = Platform.select({
   ios: true,
+  android: true,
   default: false
 });
 
@@ -57,17 +58,21 @@ export function useSlideAnimation({
     }).start();
   }, []);
 
-  const translateY = React.useMemo(() => animatedValue.current.interpolate({
-    inputRange: [0, 1],
-    outputRange: translateYOutputRangeFor({
-      position,
-      height,
-      topOffset,
-      bottomOffset,
-      keyboardHeight,
-      keyboardOffset
-    })
-  }), [position, height, topOffset, bottomOffset, keyboardHeight, keyboardOffset]);
+  const translateY = React.useMemo(
+    () =>
+      animatedValue.current.interpolate({
+        inputRange: [0, 1],
+        outputRange: translateYOutputRangeFor({
+          position,
+          height,
+          topOffset,
+          bottomOffset,
+          keyboardHeight,
+          keyboardOffset
+        })
+      }),
+    [position, height, topOffset, bottomOffset, keyboardHeight, keyboardOffset]
+  );
 
   const opacity = animatedValue.current.interpolate({
     inputRange: [0, 0.7, 1],
